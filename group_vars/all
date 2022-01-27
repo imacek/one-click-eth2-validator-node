@@ -1,0 +1,10 @@
+---
+lighthouse_version: v2.1.1
+lighthouse_user: lighthouse
+lighthouse_network: prater
+lighthouse_bin_path: /usr/local/bin
+lighthouse_data_path: /var/lib/lighthouse
+lighthouse_graffiti: 777
+
+geth_data_path: /var/ethereum/geth/
+geth_network: goerli

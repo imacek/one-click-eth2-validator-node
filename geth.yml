@@ -1,0 +1,34 @@
+---
+- name: Setup firewall for Geth service
+  hosts: ethereum
+  become: true
+  tasks:
+  - name: Enable UFW
+    ufw:
+      state: enabled
+
+  - name: Allow p2p port
+    ufw:
+      rule: allow
+      port: '30303'
+
+- name: Start Geth service
+  hosts: ethereum
+  roles:
+  - role: 0x0i.geth
+    vars:
+      perform_uninstall: false # Toggle this to true to uninstall
+      install_type: package
+      geth_config:
+        Eth:
+          SyncMode: snap
+        Node:
+          DataDir: "{{ geth_data_path }}/{{ geth_network }}"
+      extra_run_args:
+        - --{{ geth_network }}
+        - --cache=8192
+        - --maxpeers=100
+        - --http
+        - --metrics
+        - --pprof
+        - --pprof.addr=0.0.0.0

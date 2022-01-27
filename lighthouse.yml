@@ -1,0 +1,144 @@
+---
+- name: Setup firewall for Lighthouse service
+  hosts: ethereum
+  become: true
+  tasks:
+  - name: Enable UFW
+    ufw:
+      state: enabled
+
+  - name: Allow p2p port
+    ufw:
+      rule: allow
+      port: '9000'
+
+- name: Create Lighthouse users & groups
+  hosts: ethereum
+  become: true
+  tasks:
+  - name: Create common user group
+    group:
+      name: "{{ lighthouse_user }}"
+      state: present
+  
+  - name: Create dedicated user for beacon node
+    user:
+      name: "{{ lighthouse_user }}"
+      groups: "{{ lighthouse_user }}"
+      shell: /sbin/nologin
+      system: true
+      create_home: false
+
+  - name: Create dedicated user for validator client
+    user:
+      name: "{{ lighthouse_user }}"
+      groups: "{{ lighthouse_user }}"
+      shell: /sbin/nologin
+      system: true
+      create_home: false
+
+- name: Create Lighthouse directories
+  hosts: ethereum
+  become: true
+  tasks:
+  - name: Prepare workspace for beacon node user
+    file:
+      path: "{{ lighthouse_data_path }}/{{ lighthouse_network }}/beacon"
+      state: directory
+      recurse: yes
+      mode: o-rwx
+      owner: "{{ lighthouse_user }}"
+      group: "{{ lighthouse_user }}"
+
+  - name: Prepare workspace for validator client user
+    file:
+      path: "{{ lighthouse_data_path }}/{{ lighthouse_network }}/validators"
+      state: directory
+      recurse: yes
+      mode: o-rwx
+      owner: "{{ lighthouse_user }}"
+      group: "{{ lighthouse_user }}"
+
+- name: Setup Lighthouse service
+  hosts: ethereum
+  become: true
+  tasks:
+  - name: Download and unpack Lighthouse package
+    unarchive:
+      src: https://github.com/sigp/lighthouse/releases/download/{{ lighthouse_version }}/lighthouse-{{ lighthouse_version }}-x86_64-unknown-linux-gnu.tar.gz
+      dest: "{{ lighthouse_bin_path }}"
+      remote_src: yes
+      owner: "{{ lighthouse_user }}"
+      group: "{{ lighthouse_user }}"
+      mode: '0775'
+
+  - name: Install Lighthouse beacon node service
+    include_role:
+      name: 0x0i.systemd
+    vars:
+      unit_config:
+        - name: lighthouse-beacon
+          Unit:
+            Description: Lighthouse Beacon Node
+            Documentation: https://lighthouse-book.sigmaprime.io/
+            Wants: network-online.target
+            After: network-online.target
+          Service:
+            Type: simple
+            ExecStart: "{{ lighthouse_bin_path }}/lighthouse beacon_node \
+              --datadir {{ lighthouse_data_path }}/{{ lighthouse_network }} \
+              --network {{ lighthouse_network }} \
+              --staking \
+              --eth1-endpoints http://127.0.0.1:8545 \
+              --metrics \
+              --validator-monitor-auto \
+              --target-peers 100"
+            User: "{{ lighthouse_user }}"
+            Group: "{{ lighthouse_user }}"
+            StandardOutput: journal
+            StandardError: inherit
+            UMask: 0077
+            Restart: always
+            RestartSec: 5
+          Install:
+            WantedBy: multi-user.target
+
+  - name: Enable and start Lighthouse Beacon Client service
+    service:
+      name: lighthouse-beacon
+      state: started
+      enabled: true
+
+  - name: Install Lighthouse validator client service
+    include_role:
+      name: 0x0i.systemd
+    vars:
+      unit_config:
+        - name: lighthouse-validator
+          Unit:
+            Description: Lighthouse Validator Client
+            Documentation: https://lighthouse-book.sigmaprime.io/
+            Wants: network-online.target
+            After: network-online.target
+          Service:
+            Type: simple
+            ExecStart: "{{ lighthouse_bin_path }}/lighthouse validator_client \
+              --datadir {{ lighthouse_data_path }}/{{ lighthouse_network }} \
+              --network {{ lighthouse_network }} \
+              --graffiti \"{{ lighthouse_graffiti }}\" \
+              --metrics"
+            User: "{{ lighthouse_user }}"
+            Group: "{{ lighthouse_user }}"
+            StandardOutput: journal
+            StandardError: inherit
+            UMask: 0077
+            Restart: always
+            RestartSec: 5
+          Install:
+            WantedBy: multi-user.target
+
+  - name: Enable and start Lighthouse Validator Client service
+    service:
+      name: lighthouse-validator
+      state: started
+      enabled: true

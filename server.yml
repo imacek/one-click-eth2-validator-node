@@ -1,0 +1,7 @@
+---
+- name: Required server setup
+  hosts: ethereum
+  become: true
+  tasks:
+  - name: Enable NTP service
+    command: timedatectl set-ntp true
