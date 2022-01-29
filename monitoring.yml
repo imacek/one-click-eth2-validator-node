@@ -3,62 +3,65 @@
   hosts: ethereum
   become: true
   tasks:
-  - name: Enable UFW
-    ufw:
-      state: enabled
-
-  - name: Allow Prometheus TCP port
-    ufw:
-      rule: allow
-      port: '9090'
-      proto: tcp
-
   - name: Allow Grafana TCP port
     ufw:
       rule: allow
-      port: '3000'
+      port: "3000"
       proto: tcp
 
-- name: Start monitoring services
+- name: Start & configure monitoring services
   hosts: ethereum
+  become: true
   roles:
   - role: cloudalchemy.node_exporter
 
   - role: cloudalchemy.prometheus
     vars:
+      scrape_interval: 15s
+      evaluation_interval: 15s
       prometheus_scrape_configs:
+      - job_name: lhbn
+        metrics_path: /metrics    
+        static_configs:
+          - targets: [ 'localhost:5054' ]
+      - job_name: lhvc
+        metrics_path: /metrics    
+        static_configs:
+          - targets: [ 'localhost:5064' ]
       - job_name: geth
         metrics_path: /debug/metrics/prometheus
         static_configs:
-        - targets:
-          - localhost:6060
-      - job_name: system
+        - targets: [ 'localhost:6060' ]
+      - job_name: node
         metrics_path: /metrics
         static_configs:
-        - targets:
-          - localhost:9100
+        - targets: [ 'localhost:9100' ]
 
   - role: cloudalchemy.grafana
     vars:
+      grafana_provisioning_synced: true
       grafana_security:
         admin_user: admin
-        admin_password: admin
+        admin_password: admin # You'll be asked to change
       grafana_auth:
         anonymous:
-          org_name: 'Main Org.'
-          org_role: Viewer
+          enabled: false
       grafana_datasources:
       - name: prometheus
         type: prometheus
         access: proxy
         url: http://localhost:9090
       grafana_dashboards:
-      - dashboard_id: '14053'
+      - dashboard_id: '14053' # Geth
         revision_id: '1'
         datasource: prometheus
-      - dashboard_id: '1860'
+      - dashboard_id: '1860' # Node Exporter
         revision_id: '25'
         datasource: prometheus
-      - dashboard_id: '3662'
-        revision_id: '2'
-        datasource: prometheus
+
+  tasks:
+  - name: Fix job parameter in the Geth dashboard
+    replace:
+      dest: "/var/lib/grafana/dashboards/14053.json"
+      regexp: "\\${VAR_JOB}"
+      replace: "geth"

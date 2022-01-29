@@ -3,14 +3,10 @@
   hosts: ethereum
   become: true
   tasks:
-  - name: Enable UFW
-    ufw:
-      state: enabled
-
   - name: Allow p2p port
     ufw:
       rule: allow
-      port: '30303'
+      port: "30303"
 
 - name: Start Geth service
   hosts: ethereum
@@ -27,8 +23,7 @@
       extra_run_args:
         - --{{ geth_network }}
         - --cache=8192
-        - --maxpeers=100
+        - --maxpeers=50
         - --http
         - --metrics
         - --pprof
-        - --pprof.addr=0.0.0.0

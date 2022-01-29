@@ -3,14 +3,10 @@
   hosts: ethereum
   become: true
   tasks:
-  - name: Enable UFW
-    ufw:
-      state: enabled
-
   - name: Allow p2p port
     ufw:
       rule: allow
-      port: '9000'
+      port: "9000"
 
 - name: Create Lighthouse users & groups
   hosts: ethereum
@@ -70,7 +66,7 @@
       remote_src: yes
       owner: "{{ lighthouse_user }}"
       group: "{{ lighthouse_user }}"
-      mode: '0775'
+      mode: "0775"
 
   - name: Install Lighthouse beacon node service
     include_role:
@@ -92,7 +88,7 @@
               --eth1-endpoints http://127.0.0.1:8545 \
               --metrics \
               --validator-monitor-auto \
-              --target-peers 100"
+              --target-peers 50"
             User: "{{ lighthouse_user }}"
             Group: "{{ lighthouse_user }}"
             StandardOutput: journal
@@ -102,12 +98,6 @@
             RestartSec: 5
           Install:
             WantedBy: multi-user.target
-
-  - name: Enable and start Lighthouse Beacon Client service
-    service:
-      name: lighthouse-beacon
-      state: started
-      enabled: true
 
   - name: Install Lighthouse validator client service
     include_role:
@@ -136,6 +126,12 @@
             RestartSec: 5
           Install:
             WantedBy: multi-user.target
+
+  - name: Enable and start Lighthouse Beacon Client service
+    service:
+      name: lighthouse-beacon
+      state: started
+      enabled: true
 
   - name: Enable and start Lighthouse Validator Client service
     service:

@@ -1,7 +1,75 @@
 ---
-- name: Required server setup
+- name: Setup Ubuntu server
   hosts: ethereum
   become: true
   tasks:
+
+  - name: Setup Apt
+    apt:
+        update_cache: yes
+        upgrade: yes
+        autoclean: yes
+        autoremove: yes
+
   - name: Enable NTP service
     command: timedatectl set-ntp true
+
+  - name: Harden sshd config
+    lineinfile:
+      dest: "/etc/ssh/sshd_config"
+      regexp: "{{ item.regexp | default(omit) }}"
+      line: "{{ item.line }}"
+      state: "{{ item.state | default('present') }}"
+      validate: "sshd -t -f %s"
+    with_items:
+      - line: "Protocol 2"
+      - regexp: "^Port\ "
+        line: "Port {{ ssh_port }}"
+      - regexp: "^#?PubkeyAuthentication\ "
+        line: "PubkeyAuthentication yes"
+      - regexp: "^#?PasswordAuthentication\ "
+        line: "PasswordAuthentication {{ ssh_password_authentication }}"
+      - regexp: "^#?PermitEmptyPasswords\ "
+        line: "PermitEmptyPasswords no"
+      - regexp: "^#?PermitRootLogin\ "
+        line: "PermitRootLogin no"
+      - regexp: "^#?ClientAliveInterval\ "
+        line: "ClientAliveInterval 300"
+      - regexp: "^#?ChallengeResponseAuthentication\ "
+        line: "ChallengeResponseAuthentication no"
+      - regexp: "^#?StrictModes\ "
+        line: "StrictModes yes"
+      - line: "Protocol 1"
+        state: "absent"
+      - line: "RSAAuthentication yes"
+        state: "absent"
+
+  - name: Reload sshd
+    service:
+      name: sshd
+      state: reloaded
+
+  - name: Enable UFW
+    ufw:
+      state: enabled
+
+  - name: Allow outgoing traffic by default
+    ufw:
+      default: allow
+      direction: outgoing
+  - name: Deny incoming traffic by default
+    ufw:
+      default: deny
+      direction: incoming
+
+  - name: Deny SSH traffic on default port 22
+    ufw:
+      rule: deny
+      port: 22
+      proto: tcp
+
+  - name: "Allow SSH traffic on port {{ ssh_port }}"
+    ufw:
+      rule: allow
+      port: "{{ ssh_port }}"
+      proto: tcp
