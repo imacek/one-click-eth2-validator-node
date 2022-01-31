@@ -10,6 +10,13 @@ Ansible setup for Ubuntu server ETH validator node.
     [promtail]
     192.168.1.100
 
+## Update group_vars/all 
+
+- Whatever you don't like in defaults.
+- Default networks are testnets - change to mainnets if production node.
+- Highly engouraged to change ssh port and disable password auth.
+- Lighthouse monitoring endpoint can be set to beaconcha.in: https://kb.beaconcha.in/beaconcha.in-explorer/mobile-app-less-than-greater-than-beacon-node.
+
 ## Download dependencies
 
     ansible-galaxy install -r requirements.yml 
@@ -29,7 +36,7 @@ Ansible setup for Ubuntu server ETH validator node.
     sudo scp -r -P 777 validator_keys USER@HOST:~/validator_keys
 
     ssh USER@HOST
-    
+
     sudo lighthouse --network prater account validator import --directory ~/validator_keys --datadir /var/lib/lighthouse
 
     sudo chown -R lighthouse:lighthouse /var/lib/lighthouse/prater/validators
@@ -39,7 +46,7 @@ Ansible setup for Ubuntu server ETH validator node.
 
 ## Manual Steps
 
-1. Import Grafana dashboards from local "grafana/" directory
+1. Import Grafana dashboards from local "grafana/" directory. More exist here: https://github.com/sigp/lighthouse-metrics/tree/master/dashboards
 
 ## Todo
 
