@@ -11,6 +11,11 @@
         autoclean: yes
         autoremove: yes
 
+  - name: Install zip
+    apt:
+        name: zip
+        state: present
+
   - name: Enable NTP service
     command: timedatectl set-ntp true
 

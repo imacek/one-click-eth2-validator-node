@@ -7,7 +7,13 @@ lighthouse_user: lighthouse
 lighthouse_network: prater
 lighthouse_bin_path: /usr/local/bin
 lighthouse_data_path: /var/lib/lighthouse
+lighthouse_peers: 80
 lighthouse_graffiti: "Hello ETH2!"
+lighthouse_monitoring_endpoint: ""
 
-geth_data_path: /var/ethereum/geth/
 geth_network: goerli
+geth_data_path: /var/lib/geth
+geth_cache: 8192
+geth_peers: 80
+
+loki_version: "2.4.2"

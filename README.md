@@ -5,6 +5,10 @@ Ansible setup for Ubuntu server ETH validator node.
 
     [ethereum]
     192.168.1.100 ansible_user=USERNAME ansible_port=PORT
+    [loki]
+    192.168.1.100
+    [promtail]
+    192.168.1.100
 
 ## Download dependencies
 
@@ -18,12 +22,14 @@ Ansible setup for Ubuntu server ETH validator node.
 
     ansible-playbook main.yml --ask-become-pass
 
-## Key Gen
+## Generate validator keys
 
     sudo ./deposit new-mnemonic --num_validators 1 --mnemonic_language=english --chain prater
 
-    sudo scp -r -P 777 validator_keys hackerman@chain:~/validator_keys
+    sudo scp -r -P 777 validator_keys USER@HOST:~/validator_keys
 
+    ssh USER@HOST
+    
     sudo lighthouse --network prater account validator import --directory ~/validator_keys --datadir /var/lib/lighthouse
 
     sudo chown -R lighthouse:lighthouse /var/lib/lighthouse/prater/validators
@@ -31,20 +37,20 @@ Ansible setup for Ubuntu server ETH validator node.
 
     sudo systemctl restart lighthouse-validator
 
+## Manual Steps
+
+1. Import Grafana dashboards from local "grafana/" directory
+
 ## Todo
-1. Connect to personal hotspot in emergency
-2. VPN for webs
-3. dyndns
-4. Protect Grafana and Prometheus webs
-5. when to update node?
-6. Alerts
-7. Logs
-8. Grafana password
-9. Auto add Lighthouse dashboard
-10. Auto add Geth dashboard
 
+5. when to update node? unattended-upgrades send email https://github.com/jnv/ansible-role-unattended-upgrades
+12. Disaster scenario - plan for backup
+    15. test full build once
+14. Wireguard vpn https://github.com/githubixx/ansible-role-wireguard
 
-https://www.coincashew.com/coins/overview-ada/guide-how-to-build-a-haskell-stakepool-node/how-to-harden-ubuntu-server
-
-https://someresat.medium.com/guide-to-staking-on-ethereum-2-0-ubuntu-lighthouse-41de20513b12
-https://someresat.medium.com/guide-to-staking-on-ethereum-2-0-ubuntu-prater-lighthouse-794d3cd7cf4e
+## References
+- https://someresat.medium.com/guide-to-staking-on-ethereum-2-0-ubuntu-lighthouse-41de20513b12
+- https://someresat.medium.com/guide-to-staking-on-ethereum-2-0-ubuntu-prater-lighthouse-794d3cd7cf4e
+- https://www.coincashew.com/coins/overview-eth/guide-how-to-stake-on-eth2-with-lighthouse
+- https://www.coincashew.com/coins/overview-ada/guide-how-to-build-a-haskell-stakepool-node/how-to-harden-ubuntu-server
+- https://www.coincashew.com/coins/overview-ada/guide-how-to-build-a-haskell-stakepool-node/how-to-setup-wireguard

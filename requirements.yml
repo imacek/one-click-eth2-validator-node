@@ -1,6 +1,8 @@
 ---
+roles:
 - src: 0x0i.systemd
 - src: 0x0i.geth
 - src: cloudalchemy.prometheus
 - src: cloudalchemy.grafana 
 - src: cloudalchemy.node_exporter
+- src: hostwithquantum.loki

@@ -22,8 +22,8 @@
           DataDir: "{{ geth_data_path }}/{{ geth_network }}"
       extra_run_args:
         - --{{ geth_network }}
-        - --cache=8192
-        - --maxpeers=50
+        - --cache={{ geth_cache }}
+        - --maxpeers={{ geth_peers }}
         - --http
         - --metrics
         - --pprof

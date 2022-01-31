@@ -15,6 +15,13 @@
   roles:
   - role: cloudalchemy.node_exporter
 
+  - role: hostwithquantum.loki
+    vars:
+      loki_config_auth: false
+      promtail_config_client_set_tenant_id: false
+      promtail_config_log_level: debug
+      promtail_config_scrape_journald_path: /var/log/journal
+
   - role: cloudalchemy.prometheus
     vars:
       scrape_interval: 15s
@@ -39,7 +46,6 @@
 
   - role: cloudalchemy.grafana
     vars:
-      grafana_provisioning_synced: true
       grafana_security:
         admin_user: admin
         admin_password: admin # You'll be asked to change
@@ -51,6 +57,10 @@
         type: prometheus
         access: proxy
         url: http://localhost:9090
+      - name: loki
+        type: loki
+        access: proxy
+        url: http://localhost:3100
       grafana_dashboards:
       - dashboard_id: '14053' # Geth
         revision_id: '1'
