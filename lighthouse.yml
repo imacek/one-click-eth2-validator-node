@@ -85,11 +85,12 @@
               --datadir {{ lighthouse_data_path }}/{{ lighthouse_network }} \
               --network {{ lighthouse_network }} \
               --staking \
-              --eth1-endpoints http://127.0.0.1:8545 \
-              --target-peers 50 \
+              --eth1-endpoints {{ lighthouse_eth_urls }} \
+              --target-peers {{ lighthouse_peers }} \
               --metrics \
               --validator-monitor-auto \
-              {{'--monitoring-endpoint ' + lighthouse_monitoring_endpoint if lighthouse_monitoring_endpoint else '' }}"
+              {{'--monitoring-endpoint ' + lighthouse_monitoring_endpoint if lighthouse_monitoring_endpoint else '' }} \
+              {{'--checkpoint-sync-url ' + lighthouse_checkpoint_sync_url if lighthouse_checkpoint_sync_url else '' }}" 
             User: "{{ lighthouse_user }}"
             Group: "{{ lighthouse_user }}"
             StandardOutput: journal

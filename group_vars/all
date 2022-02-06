@@ -1,19 +1,43 @@
 ---
 ssh_port: 22
-ssh_password_authentication: "no"
+ssh_password_authentication: "yes"
 
-lighthouse_version: v2.1.1
+lighthouse_version: v2.1.2
 lighthouse_user: lighthouse
 lighthouse_network: prater
 lighthouse_bin_path: /usr/local/bin
 lighthouse_data_path: /var/lib/lighthouse
-lighthouse_peers: 80
+lighthouse_peers: 50
 lighthouse_graffiti: "Hello ETH2!"
+lighthouse_eth_urls: "http://localhost:8545"
+lighthouse_checkpoint_sync_url: ""
 lighthouse_monitoring_endpoint: ""
 
 geth_network: goerli
 geth_data_path: /var/lib/geth
-geth_cache: 8192
-geth_peers: 80
+geth_cache: 1024
+geth_peers: 50
 
-loki_version: "2.4.2"
+alertmanager_enabled: false
+alertmanager_pagerduty_general_key: ""
+alertmanager_pagerduty_critical_key: ""
+
+wireguard_enabled: false
+wireguard_port: 51820
+wireguard_address: 10.0.0.1/24
+# wireguard_unmanaged_peers:
+#   client:
+#     public_key: ...
+#     preshared_key: ...
+#     allowed_ips: 10.0.0.2/32
+# wireguard_nat_interface: eth0
+# wireguard_postup:
+# - iptables -t nat -A POSTROUTING -o {{ wireguard_nat_interface }} -j MASQUERADE
+# - iptables -A FORWARD -i %i -j ACCEPT
+# - iptables -A FORWARD -o %i -j ACCEPT
+# wireguard_postdown:
+# - iptables -t nat -D POSTROUTING -o {{ wireguard_nat_interface }} -j MASQUERADE
+# - iptables -D FORWARD -i %i -j ACCEPT
+# - iptables -D FORWARD -o %i -j ACCEPT
+# wireguard_preup:
+#   - echo 1 > /proc/sys/net/ipv4/ip_forward

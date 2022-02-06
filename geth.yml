@@ -13,7 +13,7 @@
   roles:
   - role: 0x0i.geth
     vars:
-      perform_uninstall: false # Toggle this to true to uninstall
+      perform_uninstall: false 
       install_type: package
       geth_config:
         Eth:

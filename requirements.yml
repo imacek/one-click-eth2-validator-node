@@ -1,8 +1,10 @@
 ---
 roles:
+- src: jnv.unattended-upgrades
 - src: 0x0i.systemd
 - src: 0x0i.geth
 - src: cloudalchemy.prometheus
-- src: cloudalchemy.grafana 
+- src: cloudalchemy.alertmanager
+- src: cloudalchemy.grafana
 - src: cloudalchemy.node_exporter
-- src: hostwithquantum.loki
+- src: githubixx.ansible_role_wireguard

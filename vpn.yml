@@ -1,0 +1,15 @@
+---
+- name: Setup Wireguard VPN server 
+  hosts: ethereum
+  become: true
+  roles:
+  - role: githubixx.ansible_role_wireguard
+    when: wireguard_enabled
+
+  tasks:
+  - name: Allow vpn traffic
+    ufw:
+      rule: allow
+      port: "{{ wireguard_port }}"
+      proto: udp
+    when: wireguard_enabled

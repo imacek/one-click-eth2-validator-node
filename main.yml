@@ -1,5 +1,6 @@
 ---
-- import_playbook: server.yml
+- import_playbook: node.yml
+- import_playbook: vpn.yml
 - import_playbook: geth.yml
 - import_playbook: lighthouse.yml
 - import_playbook: monitoring.yml

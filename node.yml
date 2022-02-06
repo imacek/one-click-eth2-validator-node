@@ -2,8 +2,10 @@
 - name: Setup Ubuntu server
   hosts: ethereum
   become: true
-  tasks:
+  roles:
+  - role: jnv.unattended-upgrades
 
+  tasks:
   - name: Setup Apt
     apt:
         update_cache: yes

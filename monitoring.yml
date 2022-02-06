@@ -1,31 +1,40 @@
 ---
-- name: Setup firewall for monitoring services
-  hosts: ethereum
-  become: true
-  tasks:
-  - name: Allow Grafana TCP port
-    ufw:
-      rule: allow
-      port: "3000"
-      proto: tcp
-
 - name: Start & configure monitoring services
   hosts: ethereum
   become: true
   roles:
   - role: cloudalchemy.node_exporter
 
-  - role: hostwithquantum.loki
+  - role: cloudalchemy.alertmanager
     vars:
-      loki_config_auth: false
-      promtail_config_client_set_tenant_id: false
-      promtail_config_log_level: debug
-      promtail_config_scrape_journald_path: /var/log/journal
+      alertmanager_version: latest
+      alertmanager_receivers:
+        - name: empty
+        - name: pagerduty-general
+          pagerduty_configs:
+            - service_key: "{{ alertmanager_pagerduty_general_key }}"
+        - name: pagerduty-critical
+          pagerduty_configs:
+            - service_key: "{{ alertmanager_pagerduty_critical_key }}"
+      alertmanager_route:
+        group_by: ['service']
+        receiver: pagerduty-general
+        routes:
+        - matchers: [ 'alertname="Watchdog"' ]
+          receiver: empty
+        - matchers: [ 'severity="critical"' ]
+          receiver: pagerduty-critical
+    when: alertmanager_enabled == true
 
   - role: cloudalchemy.prometheus
     vars:
-      scrape_interval: 15s
-      evaluation_interval: 15s
+      prometheus_version: latest
+      prometheus_global:
+        scrape_interval: 15s
+        evaluation_interval: 15s
+      prometheus_alertmanager_config:
+      - static_configs:
+        - targets: [ 'localhost:9093' ]
       prometheus_scrape_configs:
       - job_name: lhbn
         metrics_path: /metrics    
@@ -57,10 +66,6 @@
         type: prometheus
         access: proxy
         url: http://localhost:9090
-      - name: loki
-        type: loki
-        access: proxy
-        url: http://localhost:3100
       grafana_dashboards:
       - dashboard_id: '14053' # Geth
         revision_id: '1'
@@ -75,3 +80,15 @@
       dest: "/var/lib/grafana/dashboards/14053.json"
       regexp: "\\${VAR_JOB}"
       replace: "geth"
+
+  - name: Allow traffic to Grafana
+    ufw:
+      rule: allow
+      port: "3000"
+      proto: tcp
+
+  - name: Allow traffic to Prometheus
+    ufw:
+      rule: allow
+      port: "9090"
+      proto: tcp
