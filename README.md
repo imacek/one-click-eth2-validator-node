@@ -27,7 +27,7 @@ Go to `group_vars/all` and alter to your liking. Defaults point to testnets.
 ## Generate and import validator keys
 
     sudo ./deposit new-mnemonic --num_validators 1 --mnemonic_language=english --chain prater
-    sudo scp -r -P 777 validator_keys USER@HOST:~/validator_keys
+    sudo scp -r -P 22 validator_keys USER@HOST:~/validator_keys
 
     ssh USER@HOST
 
@@ -52,3 +52,4 @@ Go to `group_vars/all` and alter to your liking. Defaults point to testnets.
 - SSH Key management: https://www.digitalocean.com/community/tutorials/how-to-set-up-ssh-keys-2
 - Ubuntu hardening: https://www.coincashew.com/coins/overview-ada/guide-how-to-build-a-haskell-stakepool-node/how-to-harden-ubuntu-server
 - Lighthouse monitoring endpoint: https://kb.beaconcha.in/beaconcha.in-explorer/mobile-app-less-than-greater-than-beacon-node
+- Extend LVM partitions: https://packetpushers.net/ubuntu-extend-your-default-lvm-space/
