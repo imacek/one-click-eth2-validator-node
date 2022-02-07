@@ -1,4 +1,4 @@
-# eth-validator-node
+# One Click ETH2 Validator Node
 Ansible setup for Ubuntu server ETH2 validator node which includes:
 - Lighthouse 
 - Geth
