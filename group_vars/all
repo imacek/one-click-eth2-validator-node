@@ -10,8 +10,8 @@ lighthouse_data_path: /var/lib/lighthouse
 lighthouse_peers: 50
 lighthouse_graffiti: "Hello ETH2!"
 lighthouse_eth_urls: "http://localhost:8545"
+lighthouse_beacon_nodes: "http://localhost:5052"
 lighthouse_checkpoint_sync_url: ""
-lighthouse_monitoring_endpoint: ""
 
 geth_network: goerli
 geth_data_path: /var/lib/geth
