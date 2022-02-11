@@ -89,7 +89,6 @@
               --target-peers {{ lighthouse_peers }} \
               --metrics \
               --validator-monitor-auto \
-              {{'--monitoring-endpoint ' + lighthouse_monitoring_endpoint if lighthouse_monitoring_endpoint else '' }} \
               {{'--checkpoint-sync-url ' + lighthouse_checkpoint_sync_url if lighthouse_checkpoint_sync_url else '' }}" 
             User: "{{ lighthouse_user }}"
             Group: "{{ lighthouse_user }}"
@@ -117,9 +116,9 @@
             ExecStart: "{{ lighthouse_bin_path }}/lighthouse validator_client \
               --datadir {{ lighthouse_data_path }}/{{ lighthouse_network }} \
               --network {{ lighthouse_network }} \
+              --beacon-nodes {{ lighthouse_beacon_nodes }} \
               --graffiti \"{{ lighthouse_graffiti }}\" \
-              --metrics \
-              {{'--monitoring-endpoint ' + lighthouse_monitoring_endpoint if lighthouse_monitoring_endpoint else '' }}"
+              --metrics"
             User: "{{ lighthouse_user }}"
             Group: "{{ lighthouse_user }}"
             StandardOutput: journal

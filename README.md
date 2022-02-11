@@ -51,5 +51,4 @@ Go to `group_vars/all` and alter to your liking. Defaults point to testnets.
 - Wireguard VPN server setup: https://www.smarthomebeginner.com/linux-wireguard-vpn-server-setup/
 - SSH Key management: https://www.digitalocean.com/community/tutorials/how-to-set-up-ssh-keys-2
 - Ubuntu hardening: https://www.coincashew.com/coins/overview-ada/guide-how-to-build-a-haskell-stakepool-node/how-to-harden-ubuntu-server
-- Lighthouse monitoring endpoint: https://kb.beaconcha.in/beaconcha.in-explorer/mobile-app-less-than-greater-than-beacon-node
 - Extend LVM partitions: https://packetpushers.net/ubuntu-extend-your-default-lvm-space/
