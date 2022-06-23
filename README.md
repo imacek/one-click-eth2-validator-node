@@ -62,8 +62,7 @@ Go to `group_vars/all` and alter to your liking. Defaults point to testnets.
 
 ## Upgrade Lighthouse - betwen validator attestations
 
-Go to `group_vars/all` and update `lighthouse_version` to latest that can be found https://github.com/sigp/lighthouse/releases.
-Then run:
+Go to `group_vars/all` and update `lighthouse_version` to latest that can be found at https://github.com/sigp/lighthouse/releases. Then run:
 
     ansible-playbook lighthouse.yml --ask-become-pass
 
