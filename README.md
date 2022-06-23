@@ -67,7 +67,7 @@ Then run:
 
     ansible-playbook lighthouse.yml --ask-become-pass
 
-## Lighthouse is running
+## Check Lighthouse is running
 
     journalctl -fu lighthouse-beacon        # Look for "INFO Previous epoch attestation(s) success" line or check beaconcha.in
     journalctl -fu lighthouse-validator
