@@ -42,6 +42,36 @@ Go to `group_vars/all` and alter to your liking. Defaults point to testnets.
 
 1. Import Lighthouse Grafana dashboards from https://github.com/sigp/lighthouse-metrics/tree/master/dashboards
 
+# Keep system up to date
+
+## Update Linux packages (including latest Geth version)
+
+    sudo apt update
+    sudo apt upgrade -y
+    sudo apt autoclean
+
+## Restart the system - betwen validator attestations
+
+    sudo reboot
+
+## Check Geth and Lighthouse are running
+
+    journalctl -fu geth
+    journalctl -fu lighthouse-beacon        # Look for "INFO Previous epoch attestation(s) success" line or check beaconcha.in
+    journalctl -fu lighthouse-validator
+
+## Upgrade Lighthouse - betwen validator attestations
+
+Go to `group_vars/all` and update `lighthouse_version` to latest that can be found https://github.com/sigp/lighthouse/releases.
+Then run:
+
+    ansible-playbook lighthouse.yml --ask-become-pass
+
+## Lighthouse is running
+
+    journalctl -fu lighthouse-beacon        # Look for "INFO Previous epoch attestation(s) success" line or check beaconcha.in
+    journalctl -fu lighthouse-validator
+
 ## References
 - Lighthouse book: https://lighthouse-book.sigmaprime.io/intro.html
 - Lighthouse Mainnet setup: https://someresat.medium.com/guide-to-staking-on-ethereum-2-0-ubuntu-lighthouse-41de20513b12
