@@ -76,6 +76,7 @@ Go to `group_vars/all` and update `lighthouse_version` to latest that can be fou
 - Lighthouse Mainnet setup: https://someresat.medium.com/guide-to-staking-on-ethereum-2-0-ubuntu-lighthouse-41de20513b12
 - Lighthouse Testnet setup: https://someresat.medium.com/guide-to-staking-on-ethereum-2-0-ubuntu-prater-lighthouse-794d3cd7cf4e
 - More Lighthouse setup guides: https://www.coincashew.com/coins/overview-eth/guide-how-to-stake-on-eth2-with-lighthouse
+- Pre-Merge checklist: https://www.coincashew.com/coins/overview-eth/ethereum-merge-upgrade-checklist-for-home-stakers-and-validators
 - How to prune Geth DB: https://gist.github.com/yorickdowne/3323759b4cbf2022e191ab058a4276b2
 - Wireguard VPN server setup: https://www.smarthomebeginner.com/linux-wireguard-vpn-server-setup/
 - SSH Key management: https://www.digitalocean.com/community/tutorials/how-to-set-up-ssh-keys-2

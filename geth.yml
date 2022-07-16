@@ -24,6 +24,8 @@
         - --{{ geth_network }}
         - --cache={{ geth_cache }}
         - --maxpeers={{ geth_peers }}
+        - --authrpc.jwtsecret={{secrets_path}}/jwtsecret
+        - --authrpc.vhosts="*"
         - --http
         - --metrics
         - --pprof

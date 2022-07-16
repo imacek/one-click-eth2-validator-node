@@ -67,6 +67,7 @@
       owner: "{{ lighthouse_user }}"
       group: "{{ lighthouse_user }}"
       mode: "0775"
+    when: lighthouse_should_update == true
 
   - name: Install Lighthouse beacon node service
     include_role:
@@ -86,6 +87,8 @@
               --network {{ lighthouse_network }} \
               --staking \
               --eth1-endpoints {{ lighthouse_eth_urls }} \
+              --execution-endpoints {{ lighthouse_execution_urls }} \
+              --jwt-secrets={{secrets_path}}/jwtsecret \
               --target-peers {{ lighthouse_peers }} \
               --metrics \
               --validator-monitor-auto \
@@ -118,6 +121,7 @@
               --network {{ lighthouse_network }} \
               --beacon-nodes {{ lighthouse_beacon_nodes }} \
               --graffiti \"{{ lighthouse_graffiti }}\" \
+              --suggested-fee-recipient {{ lighthouse_suggested_fee_recipient_address }} \
               --metrics"
             User: "{{ lighthouse_user }}"
             Group: "{{ lighthouse_user }}"

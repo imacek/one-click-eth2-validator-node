@@ -1,0 +1,21 @@
+---
+- name: Setup prerequisites for both execution and validation layer
+  hosts: ethereum
+  become: true
+
+  tasks:
+  - name: Create /secrets directory
+    file:
+      path: "{{ secrets_path }}"
+      state: directory
+      recurse: yes
+      mode: 0775
+
+  - name: Create the jwtsecret file
+    shell: openssl rand -hex 32 | tr -d "\n" | sudo tee {{ secrets_path }}/jwtsecret
+
+  - name: Enable read access
+    file:
+      path: "{{ secrets_path }}/jwtsecret"
+      state: file
+      mode: 0644
