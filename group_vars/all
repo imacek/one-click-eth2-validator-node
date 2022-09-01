@@ -4,7 +4,7 @@ ssh_password_authentication: "yes"
 
 secrets_path: /secrets
 
-lighthouse_version: v2.1.2
+lighthouse_version: v3.1.0
 lighthouse_should_update: false
 lighthouse_user: lighthouse
 lighthouse_network: prater
