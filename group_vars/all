@@ -4,7 +4,7 @@ ssh_password_authentication: "yes"
 
 secrets_path: /secrets
 
-lighthouse_version: v3.1.0
+lighthouse_version: v3.1.2
 lighthouse_should_update: false
 lighthouse_user: lighthouse
 lighthouse_network: prater
@@ -12,7 +12,6 @@ lighthouse_bin_path: /usr/local/bin
 lighthouse_data_path: /var/lib/lighthouse
 lighthouse_peers: 50
 lighthouse_execution_urls: http://localhost:8551
-lighthouse_eth_urls: "http://localhost:8545"
 lighthouse_beacon_nodes: "http://localhost:5052"
 lighthouse_checkpoint_sync_url: ""
 lighthouse_graffiti: "Hello ETH2!"

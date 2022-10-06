@@ -86,7 +86,6 @@
               --datadir {{ lighthouse_data_path }}/{{ lighthouse_network }} \
               --network {{ lighthouse_network }} \
               --staking \
-              --eth1-endpoints {{ lighthouse_eth_urls }} \
               --execution-endpoints {{ lighthouse_execution_urls }} \
               --jwt-secrets={{secrets_path}}/jwtsecret \
               --target-peers {{ lighthouse_peers }} \
