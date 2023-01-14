@@ -1,6 +1,7 @@
 ---
 - import_playbook: node.yml
 - import_playbook: vpn.yml
+- import_playbook: duckdns.yml
 - import_playbook: prerequisites.yml
 - import_playbook: geth.yml
 - import_playbook: lighthouse.yml

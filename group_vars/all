@@ -45,3 +45,7 @@ wireguard_address: 10.0.0.1/24
 # - iptables -D FORWARD -o %i -j ACCEPT
 # wireguard_preup:
 #   - echo 1 > /proc/sys/net/ipv4/ip_forward
+
+duckdns_enabled: false
+duck_subdomain: <your-domain>
+duck_token: <your-token>
