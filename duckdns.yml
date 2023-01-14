@@ -1,0 +1,7 @@
+---
+- name: Setup Wireguard VPN server 
+  hosts: ethereum
+  become: true
+  roles:
+  - role: mpataki.ha_duckdns
+    when: duckdns_enabled
