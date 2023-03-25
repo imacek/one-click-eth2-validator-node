@@ -91,7 +91,8 @@
               --target-peers {{ lighthouse_peers }} \
               --metrics \
               --validator-monitor-auto \
-              {{'--checkpoint-sync-url ' + lighthouse_checkpoint_sync_url if lighthouse_checkpoint_sync_url else '' }}" 
+              {{'--checkpoint-sync-url ' + lighthouse_checkpoint_sync_url if lighthouse_checkpoint_sync_url else '' }}
+              {{'--builder ' + lighthouse_builder_url if lighthouse_builder_url else '' }}" 
             User: "{{ lighthouse_user }}"
             Group: "{{ lighthouse_user }}"
             StandardOutput: journal
@@ -121,7 +122,8 @@
               --beacon-nodes {{ lighthouse_beacon_nodes }} \
               --graffiti \"{{ lighthouse_graffiti }}\" \
               --suggested-fee-recipient {{ lighthouse_suggested_fee_recipient_address }} \
-              --metrics"
+              --metrics \
+              {{'--builder-proposals' if lighthouse_builder_url else '' }}"
             User: "{{ lighthouse_user }}"
             Group: "{{ lighthouse_user }}"
             StandardOutput: journal
