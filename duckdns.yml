@@ -1,7 +1,7 @@
 ---
-- name: Setup Wireguard VPN server 
+- name: Setup DuckDNS IP refresh 
   hosts: ethereum
   become: true
   roles:
-  - role: mpataki.ha_duckdns
+  - role: rofrantz.duckdns
     when: duckdns_enabled

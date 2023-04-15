@@ -4,7 +4,7 @@ ssh_password_authentication: "yes"
 
 secrets_path: /secrets
 
-lighthouse_version: v3.5.1
+lighthouse_version: v4.0.2-rc.0
 lighthouse_should_update: false
 lighthouse_user: lighthouse
 lighthouse_network: prater
@@ -48,5 +48,6 @@ wireguard_address: 10.0.0.1/24
 #   - echo 1 > /proc/sys/net/ipv4/ip_forward
 
 duckdns_enabled: false
-duck_subdomain: <your-domain>
-duck_token: <your-token>
+duckdns_subdomain: <your-domain>
+duckdns_token: <your-token>
+duckdns_update_now: true

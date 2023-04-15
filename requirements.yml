@@ -8,4 +8,4 @@ roles:
 - src: cloudalchemy.grafana
 - src: cloudalchemy.node_exporter
 - src: githubixx.ansible_role_wireguard
-- src: mpataki.ha_duckdns
+- src: rofrantz.duckdns
