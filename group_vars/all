@@ -4,7 +4,7 @@ ssh_password_authentication: "yes"
 
 secrets_path: /secrets
 
-lighthouse_version: v4.0.2-rc.0
+lighthouse_version: v4.6.0
 lighthouse_should_update: false
 lighthouse_user: lighthouse
 lighthouse_network: prater
@@ -18,9 +18,10 @@ lighthouse_graffiti: "Hello ETH2!"
 lighthouse_suggested_fee_recipient_address: "0x0000000000000000000000000000000000000000"
 lighthouse_builder_url: ""
 
+geth_version: 1.13.12-02eb36af
 geth_network: goerli
+geth_bin_path: /usr/local/bin
 geth_data_path: /var/lib/geth
-geth_cache: 1024
 geth_peers: 50
 
 alertmanager_enabled: false

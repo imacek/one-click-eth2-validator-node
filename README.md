@@ -44,7 +44,7 @@ Go to `group_vars/all` and alter to your liking. Defaults point to testnets.
 
 # Keep system up to date
 
-## Update Linux packages (including latest Geth version)
+## Update Linux packages
 
     sudo apt update
     sudo apt upgrade -y
@@ -59,6 +59,12 @@ Go to `group_vars/all` and alter to your liking. Defaults point to testnets.
     journalctl -fu geth
     journalctl -fu lighthouse-beacon        # Look for "INFO Previous epoch attestation(s) success" line or check beaconcha.in
     journalctl -fu lighthouse-validator
+
+## Upgrade Geth - betwen validator attestations
+
+Go to `group_vars/all` and update `geth_version` to latest that can be found at https://geth.ethereum.org/downloads. Then run:
+
+    ansible-playbook geth.yml --ask-become-pass
 
 ## Upgrade Lighthouse - betwen validator attestations
 

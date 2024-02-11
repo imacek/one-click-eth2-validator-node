@@ -13,8 +13,10 @@
   roles:
   - role: 0x0i.geth
     vars:
-      perform_uninstall: false 
-      install_type: package
+      perform_uninstall: false
+      install_type: archive
+      archive_url: "https://gethstore.blob.core.windows.net/builds/geth-linux-amd64-{{ geth_version }}.tar.gz"
+      install_dir: "{{ geth_bin_path }}/geth"
       geth_config:
         Eth:
           SyncMode: snap
@@ -22,7 +24,7 @@
           DataDir: "{{ geth_data_path }}/{{ geth_network }}"
       extra_run_args:
         - --{{ geth_network }}
-        - --cache={{ geth_cache }}
+        - --state.scheme=path
         - --maxpeers={{ geth_peers }}
         - --authrpc.jwtsecret={{secrets_path}}/jwtsecret
         - --authrpc.vhosts="*"
