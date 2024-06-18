@@ -2,9 +2,6 @@
 - name: Setup Ubuntu server
   hosts: ethereum
   become: true
-  roles:
-  - role: jnv.unattended-upgrades
-
   tasks:
   - name: Setup Apt
     apt:

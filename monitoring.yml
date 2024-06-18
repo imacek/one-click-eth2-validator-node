@@ -29,6 +29,7 @@
   - role: cloudalchemy.prometheus
     vars:
       prometheus_version: latest
+      prometheus_storage_retention: 15d
       prometheus_global:
         scrape_interval: 15s
         evaluation_interval: 15s
